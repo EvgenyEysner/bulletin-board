@@ -20,9 +20,10 @@
 9. Запускаем проект: <i>python manage.py runserver</i>
    <hr>
 10. Делаем первый commit/push Git
-    <br>
+    <hr>
 
-settings.py<br>
+
+>>settings.py<br>
 import os <br>
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))<br>
 INSTALLED_APPS [
