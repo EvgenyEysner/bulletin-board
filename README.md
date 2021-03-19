@@ -29,7 +29,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))<br>
 INSTALLED_APPS [
 <br> 'board.apps.BoardConfig',
 <br>]
-<br> меняю пути в TEMPLATES
+<br> меняю пути в TEMPLATES<br>
 'DIRS': [os.path.join(BASE_DIR, 'templates')],<br>
 DB 'NAME' --> os.path.join(BASE_DIR, 'db.sqlite3')<br>
 добавляю пути для статики:<br>
@@ -39,14 +39,16 @@ STATICFILES_DIRS = (
 т.к. будут картинки добавляю директорию для Media<br>
 MEDIA_URL = '/media/'<br>
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')<br>
-В главный urls.py добавлю 
+В главный urls.py добавлю<br>
 from django.conf import settings<br>
 from django.conf.urls.static import static
 urlpatterns = [<br>
     path('admin/', admin.site.urls),<br>
     path('', include('board.urls')),<br>
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+для того чтобы все правильно работало<br>
 
-для того чтобы все правильно работало + Pillow для работы с изображениями
+
+**Pillow для работы с изображениями**
 <br>
 <i>pip install pillow</i>
