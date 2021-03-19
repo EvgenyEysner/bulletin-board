@@ -21,7 +21,8 @@
    <hr>
 10. Делаем первый commit/push Git
     <br>
->> settings.py
+
+settings.py<br>
 import os <br>
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))<br>
 INSTALLED_APPS [
