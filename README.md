@@ -20,17 +20,17 @@
 9. Запускаем проект: <i>python manage.py runserver</i>
    <hr>
 10. Делаем первый commit/push Git
-> settings.py <br> 
-> import os <br>
-> BASE_DIR = os.path.dirname(os.path.dirname(__file__))<br>
-> INSTALLED_APPS [
-> <br> 'board.apps.BoardConfig',
-> <br>]
-> <br> меняю пути в TEMPLATES
-> 'DIRS': [os.path.join(BASE_DIR, 'templates')],<br>
-> DB 'NAME' --> os.path.join(BASE_DIR, 'db.sqlite3')<br>
-> добавляю пути для статики:<br>
-> STATICFILES_DIRS = (
+>> settings.py <br> 
+import os <br>
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))<br>
+INSTALLED_APPS [
+<br> 'board.apps.BoardConfig',
+<br>]
+<br> меняю пути в TEMPLATES
+'DIRS': [os.path.join(BASE_DIR, 'templates')],<br>
+DB 'NAME' --> os.path.join(BASE_DIR, 'db.sqlite3')<br>
+добавляю пути для статики:<br>
+STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )<br>
 т.к. будут картинки добавляю директорию для Media<br>
