@@ -37,13 +37,13 @@ MEDIA_URL = '/media/'<br>
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')<br>
 >>
 В главный urls.py добавлю 
-> from django.conf import settings<br>
+>> from django.conf import settings<br>
 from django.conf.urls.static import static
 >> urlpatterns = [<br>
     path('admin/', admin.site.urls),<br>
     path('', include('board.urls')),<br>
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
->>
+
 для того чтобы все правильно работало + Pillow для работы с изображениями
 <br>
 <i>pip install pillow</i>
