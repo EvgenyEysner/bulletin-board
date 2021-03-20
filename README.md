@@ -22,7 +22,7 @@
 10. Делаем первый commit/push Git
     <hr>
 
-
+<h2>Настройки</h2>
 >>settings.py<br>
 import os <br>
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))<br>
@@ -48,7 +48,7 @@ urlpatterns = [<br>
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 для того чтобы все правильно работало<br>
 
-
+<h2>Доп. Библиотеки</h2>
 **Pillow для работы с изображениями**
 <br>
 <i>pip install pillow</i>
