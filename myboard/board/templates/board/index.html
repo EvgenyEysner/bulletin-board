@@ -1,123 +1,93 @@
 {% extends 'default.html' %}
 {% block content %}
+{% load static %}
   <!-- Page Content -->
-  <div class="container">
+<div class="container" xmlns="http://www.w3.org/1999/html">
 
-    <h1 class="my-4">Welcome to Modern Business</h1>
-
-    <!-- Marketing Icons Section -->
-    <div class="row">
-      <div class="col-lg-4 mb-4">
+  <h1 class="my-4">Welcome to Modern Business</h1>
+  <h2>Объявления</h2>
+  <div class="row">
+    {% for post in posts %}
+    <div class="col-lg-4 col-sm-6 portfolio-item">
         <div class="card h-100">
-          <h4 class="card-header">Card Title</h4>
+          <a href="#"><img class="card-img-top" src="{{ post.image.url }}" alt=""></a>
           <div class="card-body">
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="btn btn-primary">Learn More</a>
+            <h4 class="card-title">
+              <a href="{% url 'post' post.pk %}">{{ post.name }}</a>
+            </h4>
+            <p class="card-text">
+              {{ post.description|truncatewords:25 }}
+            </p>
+            <p class="card-text">{{ ad.content }}</p>
+            <a href="{{ post.url }}" class="card-link">доп. ссылка</a>
+            <hr>
+            {% if request.user.is_authenticated %}
+            <a href="{% url 'post_update' post.pk %}" class="btn btn-outline-dark">редактировать</a>
+            <a href="#" class="btn btn-outline-dark float-right">удалить</a>
+            {% else %}
+            {% endif %}
+            <div class="col-lg-4 col-sm-6 portfolio-item">
+            <br>
+            {% with post.comments as total_comments %}
+            <ul class="list-group list-group-horizontal">
+              <li class="list list-group-item">
+                <a href="{% url 'post' post.pk %}" class="visible">
+                <img src="{% static 'board/image/chat.svg' %}" width="30px" height="30px">
+                  <span>{{ total_comments.count }}</span>
+                </a>
+              </li>
+              <li class="list list-group-item">
+                <a href="{% url 'post' post.pk %}" class="visible">
+                  <img src="{% static 'board/image/add-chat.svg' %}" width="30px" height="30px">
+                </a>
+              </li>
+            </ul>
+            {% endwith %}
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col-lg-4 mb-4">
-        <div class="card h-100">
-          <h4 class="card-header">Card Title</h4>
-          <div class="card-body">
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis ipsam eos, nam perspiciatis natus commodi similique totam consectetur praesentium molestiae atque exercitationem ut consequuntur, sed eveniet, magni nostrum sint fuga.</p>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="btn btn-primary">Learn More</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 mb-4">
-        <div class="card h-100">
-          <h4 class="card-header">Card Title</h4>
-          <div class="card-body">
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
-          </div>
-          <div class="card-footer">
-            <a href="#" class="btn btn-primary">Learn More</a>
-          </div>
-        </div>
-      </div>
     </div>
+      {% endfor %}
+    <nav class="container" aria-label="page navigation">
+      <ul class="pagination justify-content-end">
+        <li class="page-item disabled">
+      {% if is_paginated %}
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+        <a class="page-link" href="?page=1" tabindex="-1" aria-disabled="false">В начало...</a>
+        </li>
+        <li class="page-item">
+          <a href="?page={{ page_obj.previous_page_number }}"></a>
+        </li>
+        {% endif %}
+        <li class="page-item">
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+          <a class="page-link">{{ num }}</a>
+        </li>
+        <li class="page-item">
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+        </li>
+            {% endif %}
+          {% endfor %}
+          {% if page_obj.has_next %}
+        <li class="page-item">
+            <a href="?page={{ page_obj.next_page_number }}"></a>
+        </li>
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
+        </li>
+          {% endif %}
+      {% endif %}
+      </ul>
+    </nav>
+  </div>
     <!-- /.row -->
-
-    <!-- Portfolio Section -->
-    <h2>Объявления</h2>
-
-    <div class="row">
-      <div class="col-lg-4 col-sm-6 portfolio-item">
-        <div class="card h-100">
-          <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-          <div class="card-body">
-            <h4 class="card-title">
-              <a href="#">Project One</a>
-            </h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam aspernatur eum quasi sapiente nesciunt? Voluptatibus sit, repellat sequi itaque deserunt, dolores in, nesciunt, illum tempora ex quae? Nihil, dolorem!</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6 portfolio-item">
-        <div class="card h-100">
-          <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-          <div class="card-body">
-            <h4 class="card-title">
-              <a href="#">Project Two</a>
-            </h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6 portfolio-item">
-        <div class="card h-100">
-          <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-          <div class="card-body">
-            <h4 class="card-title">
-              <a href="#">Project Three</a>
-            </h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quos quisquam, error quod sed cumque, odio distinctio velit nostrum temporibus necessitatibus et facere atque iure perspiciatis mollitia recusandae vero vel quam!</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6 portfolio-item">
-        <div class="card h-100">
-          <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-          <div class="card-body">
-            <h4 class="card-title">
-              <a href="#">Project Four</a>
-            </h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6 portfolio-item">
-        <div class="card h-100">
-          <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-          <div class="card-body">
-            <h4 class="card-title">
-              <a href="#">Project Five</a>
-            </h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 col-sm-6 portfolio-item">
-        <div class="card h-100">
-          <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-          <div class="card-body">
-            <h4 class="card-title">
-              <a href="#">Project Six</a>
-            </h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque earum nostrum suscipit ducimus nihil provident, perferendis rem illo, voluptate atque, sit eius in voluptates, nemo repellat fugiat excepturi! Nemo, esse.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- /.row -->
-
+  <hr>
+  <br>
     <!-- Features Section -->
-    <div class="row">
+  <div class="row">
       <div class="col-lg-6">
         <h2>Modern Business Features</h2>
         <p>The Modern Business template by Start Bootstrap includes:</p>
@@ -135,21 +105,18 @@
       <div class="col-lg-6">
         <img class="img-fluid rounded" src="http://placehold.it/700x450" alt="">
       </div>
-    </div>
-    <!-- /.row -->
-
-    <hr>
+  </div>
 
     <!-- Call to Action Section -->
-    <div class="row mb-4">
+  <div class="row mb-4">
       <div class="col-md-8">
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
       </div>
-      <div class="col-md-4">
-        <a class="btn btn-lg btn-secondary btn-block" href="#">Call to Action</a>
+      <div class="col-md-8">
+        <a class="btn btn-outline-dark" href="#">Call to Action</a>
       </div>
     </div>
+</div>
 
-  </div>
   <!-- /.container -->
 {% endblock %}

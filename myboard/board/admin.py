@@ -3,15 +3,15 @@ from django.utils.html import format_html  # для отображения фо�
 from .models import *
 
 
-@admin.register(Board)
+@admin.register(Post)
 class BoardAdmin(admin.ModelAdmin):
 
     def image_tag(self, obj):
-        return format_html('<img src="{}" style="width: 45px; height:45px;"/>'.format(obj.image.url))
+        return format_html('<img src="{}" style="width: 50px; height: 50px;"/>'.format(obj.image.url))
     image_tag.short_description = 'изображение'
 
     date_hierarchy = 'created'
-    list_display = ['name', 'description', 'created', 'image_tag']
+    list_display = ['name', 'description', 'created', 'image_tag', 'url', 'content', 'owner']
 
 
 @admin.register(Category)
@@ -21,4 +21,6 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ['__str__']
+    list_display = ['name', 'body', 'email', 'created', 'active']
+    list_filter = ['post', 'created', 'body', 'active']
+    search_fields = ['name', 'email', 'body', 'active']

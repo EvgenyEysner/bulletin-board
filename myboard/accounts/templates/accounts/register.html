@@ -1,0 +1,22 @@
+{% extends 'default.html' %}
+
+{% block title %}Зарегистрироватьсяt{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+      <div class="col-6">
+        <h1>Создать аккаунт</h1>
+        <p>Воспользуйтесь следующей формой:</p>
+        <form action="" method="POST">
+            {{ form }}
+            {% csrf_token %}
+            <hr>
+            <input class="btn btn-outline-dark" style="margin:10px,auto;" type="submit" value="Создать">
+        </form>
+      </div>
+  </div>
+</div>
+<br>
+
+{% endblock %}
