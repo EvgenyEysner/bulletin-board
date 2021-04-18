@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 
 # Создаём форму LoginForm для входа в кабинет
@@ -16,37 +16,11 @@ class LoginForm(AuthenticationForm):
 
 
 # регистрация пользователя
-class RegisterForm(forms.ModelForm):
-    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={
-        'class': 'form-control',
-        'placeholder': '**********'
-    }))
-    password2 = forms.CharField(label='Повторите пароль', widget=forms.PasswordInput(attrs={
-        'class': 'form-control',
-        'placeholder': '**********'
-    }))
+class RegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'email')
-
-        widgets = {
-            'username': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Ник'
-            }),
-
-            'first_name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Имя'
-            }),
-
-            'email': forms.EmailInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'E-Mail'
-            }),
-
-        }
+        fields = ('username', 'first_name', 'last_name', 'email')
 
     def clean_password2(self):
         cd = self.cleaned_data
