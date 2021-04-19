@@ -35,13 +35,14 @@ def register(request):
         # проверяем
         if form.is_valid():
             new_user = form.save(commit=False)
-            # используем для этого метод set_password,
-            # который шифрует пароль и сохраняет его в базу для пользователя,
             # когда мы вызовем new_user.save().
-            new_user.set_password(form.cleaned_data['password'])
             new_user.save()
+            Profile.objects.create(user=new_user,
+                                   email=new_user.email,
+                                   first_name=new_user.first_name,
+                                   last_name=new_user.last_name,
+                                   )
             # добавляю профиль
-            Profile.objects.create(user=new_user)
             # если все хорошо перекидываю юзера на страницу registration_complete.html
             return render(request, 'accounts/registration_complete.html',
                           {'new_user': new_user})
@@ -49,9 +50,6 @@ def register(request):
         form = RegisterForm()
 
     return render(request, 'accounts/register.html', {'form': form})
-
-# в django.contrib.auth.forms есть класс формы для такого случая и он
-# называется UserCreationForm, он делает похожие вещи
 
 
 class UserProfile(LoginRequiredMixin, ListView):
@@ -66,22 +64,8 @@ class UserProfile(LoginRequiredMixin, ListView):
         # добавляю в контекст только посты определенного пользователя
         context['posts'] = Post.objects.filter(owner=self.request.user)
         context['comments'] = Comment.objects.filter(post_id=id)
-        # вписываем наш фильтр в контекст
-        context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
-
-def comment_accept(pk):
-    comment = Comment.objects.get(id=pk)
-    comment.active = True
-    comment.save()
-    return HttpResponse("OK")
-
-
-class CommentDelete(DeleteView):
-    model = Comment
-    template_name = 'accounts/comment_delete.html'
-    success_url = reverse_lazy('profile')
 
 
 

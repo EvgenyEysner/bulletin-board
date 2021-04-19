@@ -11,7 +11,7 @@
 <!--           <a href="#"><img class="card-img-top" src="{{ post.image.url }}" alt=""></a> -->
           <div class="card-body">
             <h4 class="card-title">
-              <a href="{% url 'post' post.pk %}">{{ post.name }}</a>
+              <a href="{% url 'details' post.pk %}">{{ post.name }}</a>
             </h4>
             <hr>
             {% if request.user.is_authenticated %}
@@ -19,6 +19,16 @@
             <a href="{% url 'post_delete' post.pk %}" class="btn btn-outline-dark float-right">удалить</a>
             {% else %}
             {% endif %}
+            {% with post.comments as total_comments %}
+            <ul class="list-group list-group-horizontal">
+              <li class="list list-group-item">
+                <a href="{% url 'details' post.pk %}" class="visible">
+                <img src="{% static 'board/image/chat.svg' %}" width="30px" height="30px">
+                  <span>{{ total_comments.count }}</span>
+                </a>
+              </li>
+            </ul>
+            {% endwith %}
             <div class="col-lg-4 col-sm-6 portfolio-item">
               <br>
             </div>
@@ -65,12 +75,6 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-sm-6 portfolio-item">
-        <h2>Отзывы/ Комментарии</h2>
-        <form method="GET">
-         {{ filter.form }}
-          <button type="submit" class="btn btn-primary">Найти</button>
-        </form>
-        <br>
         {% for post in filter.qs %}
           {% if post.active %}
         <input class="form-check-input" type="checkbox" data-pk={{ post.pk }} checked>

@@ -7,6 +7,4 @@ urlpatterns = [
     path('logout/', views.UserLogOutView.as_view(), name='logout'),
     path('register/', views.register, name='register'),
     path('profile/', views.UserProfile.as_view(), name='profile'),
-    path('<int:pk>/accept/', views.comment_accept, name='accept'),
-    path('<int:pk>/delete/', views.CommentDelete.as_view(), name='comment_delete'),
 ]

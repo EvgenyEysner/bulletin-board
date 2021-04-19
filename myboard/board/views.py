@@ -1,6 +1,7 @@
 from django.views.generic import ListView, UpdateView, DetailView, CreateView, DeleteView
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
+from django.shortcuts import redirect
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .models import *
@@ -42,6 +43,17 @@ class AdView(DetailView, FormView):
         return super().form_valid(form)
 
 
+class ProfilPostDetailsView(DetailView):
+    model = Post
+    template_name = 'board/details.html'
+    context_object_name = 'post'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = Comment.objects.all()
+        return context
+
+
 class AdCreateView(CreateView, LoginRequiredMixin):
     model = Post
     form_class = PostForm
@@ -68,6 +80,18 @@ class AdDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'board/post_delete.html'
     success_url = reverse_lazy('profile')
 
+
+class CommentDelete(DeleteView):
+    model = Comment
+    template_name = 'board/comment_delete.html'
+    success_url = reverse_lazy('profile')
+
+
+def comment_update(request, pk):
+    com = Comment.objects.get(id=pk)
+    com.active = True
+    com.save()
+    return redirect(reverse_lazy('profile'))
 
 
 
