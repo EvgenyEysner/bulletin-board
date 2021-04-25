@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from django.db import models
-# from myboard.settings import AUTH_USER_MODEL
 
 
 # расширяю базовою модель пользователя
