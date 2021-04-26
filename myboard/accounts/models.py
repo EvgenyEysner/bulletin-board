@@ -8,7 +8,7 @@ class Profile(models.Model):
     first_name = models.CharField('имя', max_length=120, blank=True, null=True)
     last_name = models.CharField('фамилия', max_length=240, blank=True, null=True)
     birthdate = models.DateField('день рождения', blank=True, null=True)
-    avatar = models.ImageField('аватар', upload_to='avatars/%Y/%m/%d', blank=True)
+    avatar = models.ImageField('аватар', upload_to='avatars/%Y/%m/%d', blank=True, null=True)
     email = models.EmailField('email')
 
     def __str__(self):
@@ -17,4 +17,3 @@ class Profile(models.Model):
     class Meta:
         verbose_name = 'профиль'
         verbose_name_plural = 'профили'
-

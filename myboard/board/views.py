@@ -2,7 +2,8 @@ from django.views.generic import ListView, UpdateView, DetailView, CreateView, D
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 from .models import *
 from .forms import CommentForm, PostForm
@@ -81,12 +82,13 @@ class AdDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('profile')
 
 
-class CommentDelete(DeleteView):
+class CommentDelete(LoginRequiredMixin, DeleteView):
     model = Comment
     template_name = 'board/comment_delete.html'
     success_url = reverse_lazy('profile')
 
 
+@login_required
 def comment_update(request, pk):
     com = Comment.objects.get(id=pk)
     com.active = True

@@ -1,6 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView
+from django.views.generic import ListView, UpdateView
+from django.urls import reverse_lazy
+
 from .models import Profile
+from .forms import ProfileEditForm
 from board.models import Post, Comment
 
 
@@ -19,6 +22,8 @@ class UserProfile(LoginRequiredMixin, ListView):
         return context
 
 
-
-
-
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = ProfileEditForm
+    template_name = 'accounts/edit.html'
+    success_url = reverse_lazy('profile')

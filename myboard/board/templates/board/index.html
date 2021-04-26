@@ -21,11 +21,6 @@
             <p class="card-text">{{ ad.content }}</p>
             <a href="{{ post.url }}" class="card-link">доп. ссылка</a>
             <hr>
-            {% if request.user.is_authenticated %}
-            <a href="{% url 'post_update' post.pk %}" class="btn btn-outline-dark">редактировать</a>
-            <a href="#" class="btn btn-outline-dark float-right">удалить</a>
-            {% else %}
-            {% endif %}
             <div class="col-lg-4 col-sm-6 portfolio-item">
             <br>
             {% with post.comments as total_comments %}

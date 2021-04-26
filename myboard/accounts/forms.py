@@ -1,9 +1,10 @@
-from django import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from django.forms import ModelForm
 
-from allauth.account.forms import SignupForm, LoginForm
+from allauth.account.forms import LoginForm
 
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from .models import Profile
 
 
 # Создаём форму LoginForm для входа в кабинет
@@ -15,9 +16,12 @@ class LoginForm(LoginForm):
 
 # регистрация пользователя, переопределяю форму allauth
 class SignupForm(UserCreationForm):
-
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email')
 
 
+class ProfileEditForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('avatar', 'first_name', 'last_name', 'email')

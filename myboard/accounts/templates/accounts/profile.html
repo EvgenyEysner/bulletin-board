@@ -1,6 +1,26 @@
 {% extends 'default.html' %}
 {% load static %}
 {% block content %}
+
+{% if user.is_authenticated %}
+{% for user in profil %}
+<h2>Профиль пользователя {{ user.user }}</h2>
+<br>
+<div class="row">
+  <div class="col-6">
+    {% if user.avatar %}
+    <img class="card-img-top" src="{{ user.avatar.url }}" alt="avatar">
+    {% else %}
+    {% endif %}
+    <hr>
+    <p class="card-text">Ник: {{ user.user }}</p>
+    <p class="card-text">Имя: {{ user.first_name }}</p>
+    <p class="card-text">Фамилия: {{ user.last_name }}</p>
+    <a class="btn btn-outline-dark" href="{% url 'edit' user.pk %}">Редактировать</a>
+  </div>
+</div>
+{% endfor %}
+{% endif %}
 <br>
 <h2>Мои объявления</h2>
 <hr>
